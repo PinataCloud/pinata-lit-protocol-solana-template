@@ -6,25 +6,27 @@ You can edit the `pages/index.js` file and the API route file `pages/api/files` 
 
 ## Encryption
 
-All the encryption pieces are located in the `index.tsx` file under the `uploadFile()` function. The most important part to take note of is the `accs` array which determines who can unlock the files. it will look something like this: 
+All the encryption pieces are located in the `index.tsx` file under the `uploadFile()` function. The most important part to take note of is the `accs` array which determines who can unlock the files. it will look something like this:
 
 ```javascript
-const accs = [
+let solRpcConditions: SolRpcConditions = [
   {
-    contractAddress: '',
-    standardContractType: '',
-    chain: 'ethereum',
-    method: 'eth_getBalance',
-    parameters: [':userAddress', 'latest'],
+    method: "getBalance",
+    params: [":userAddress"],
+    pdaParams: [],
+    pdaInterface: { offset: 0, fields: {} },
+    pdaKey: "",
+    chain: "solana",
     returnValueTest: {
-      comparator: '>=',
-      value: '0',
+      key: "",
+      comparator: ">=",
+      value: "100000000", // equals 0.1 SOL
     },
   },
 ];
 ```
 
-With its current implementation the only thing required to decrypt the file is to have a balance greater than 0. This is just a proof of concept and can be changed to whatever you want. For more info on different access controls check out the [Lit Protocol Documentation](https://developer.litprotocol.com/v3/sdk/access-control/evm/basic-examples).
+With its current implementation the only thing required to decrypt the file is to have a balance greater than 0. This is just a proof of concept and can be changed to whatever you want. For more info on different access controls check out the [Lit Protocol Documentation](https://developer.litprotocol.com/v3/sdk/access-control/other-chains/sol-rpc-conditions/).
 
 ### Environment Variables
 
